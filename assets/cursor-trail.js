@@ -9,9 +9,10 @@
   canvas.height = height;
 
   let points = [];
-  const maxPoints = 12; // SHORT, crisp tail
-  const widthStart = 5;
-  const widthEnd = 1.3;
+const maxPoints = 5;      // keep as is
+const widthStart = 3;      // thickness at cursor (was 5)
+const widthEnd = 0.8;      // thickness at tail  (was 1.3)
+
   const fadeSpeed = 0.095;
 
   // Get accent color from CSS variable --accent
@@ -23,22 +24,34 @@
     return a + (b - a) * t;
   }
 
-  function drawTrail() {
-    ctx.clearRect(0, 0, width, height);
-    if(points.length < 2) return;
-    for(let i=0; i<points.length-1; i++){
-      const t = i / (points.length-1);
-      ctx.beginPath();
-      ctx.moveTo(points[i].x, points[i].y);
-      ctx.lineTo(points[i+1].x, points[i+1].y);
-      ctx.strokeStyle = getAccent();
-      ctx.globalAlpha = lerp(0.8, 0, t); // Fades out smoothly
-      ctx.lineWidth = lerp(widthStart, widthEnd, t);
-      ctx.lineCap = 'round';
-      ctx.stroke();
-    }
-    ctx.globalAlpha = 1;
+function drawTrail() {
+  ctx.clearRect(0, 0, width, height);
+  if (points.length < 2) return;
+
+  const last = points.length - 1; // cursor index
+
+  for (let j = 0; j < last; j++) {
+    // j = 0 near cursor, j → last-1 towards tail
+    const i = last - 1 - j;      // map j to actual index in points
+    const p  = points[i];
+    const p2 = points[i + 1];
+
+    const t = j / last;          // 0 at cursor, 1 at tail
+
+    ctx.beginPath();
+    ctx.moveTo(p.x,  p.y);
+    ctx.lineTo(p2.x, p2.y);
+
+    ctx.strokeStyle = getAccent();
+    ctx.globalAlpha = lerp(0.9, 0.1, t);        // strong → faint
+    ctx.lineWidth   = lerp(widthStart, widthEnd, t); // thick → thin
+    ctx.lineCap = 'round';
+    ctx.stroke();
   }
+
+  ctx.globalAlpha = 1;
+}
+
 
   function animate() {
     // Fade tail naturally if no new points are added
