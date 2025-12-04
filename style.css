@@ -71,6 +71,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  overflow: hidden; /* added so image is clipped inside circle */
 }
 
 .about-photo {
@@ -503,4 +504,11 @@ body {
   .navbar { padding: 18px 8px; }
   .headline { font-size: 2.1rem; }
   .stats { flex-direction: column; gap: 24px; }
+
+  /* add these two lines inside this block */
+  .about-photo-wrapper {
+    width: 140px;
+    height: 140px; /* same -> perfect circle */
+  }
 }
+
