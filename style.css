@@ -77,10 +77,14 @@ body {
 .about-photo {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 999px;         
   object-fit: cover;
   display: block;
+  overflow: hidden;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;  
 }
+
 
 .about-intro {
   max-width: 620px;
@@ -504,11 +508,15 @@ body {
   .navbar { padding: 18px 8px; }
   .headline { font-size: 2.1rem; }
   .stats { flex-direction: column; gap: 24px; }
-
-  /* add these two lines inside this block */
+    .about-photo-wrapper {
+    width: 140px;
+    height: 140px;
+    border-radius: 999px;
+    overflow: hidden;
+  }
   .about-photo-wrapper {
     width: 140px;
-    height: 140px; /* same -> perfect circle */
+    height: 140px;
   }
 }
 
